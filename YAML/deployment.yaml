@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-vts
+  namespace: default
+  labels:
+    app: nginx-vts
+  annotations:
+    configmap.reloader.stakater.com/reload: "nginx-vts-global-config,nginx-vts-virtual-host-config"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-vts
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: nginx-vts
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: nginx-vts
+        image: winds6206/nginx-vts:1.19.6
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          timeoutSeconds: 2
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          timeoutSeconds: 2
+        volumeMounts:
+          - name: nginx-virtual-host-config
+            mountPath: /etc/nginx/conf.d
+          - name: nginx-global-config
+            mountPath: /etc/nginx/nginx.conf
+            subPath: nginx.conf
+      volumes:
+      - name: nginx-virtual-host-config
+        configMap:
+          name: nginx-vts-virtual-host-config
+      - name: nginx-global-config
+        configMap:
+          name: nginx-vts-global-config
+          items:
+          - key: nginx.conf
+            path: nginx.conf
