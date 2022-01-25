@@ -36,6 +36,7 @@ http://127.0.0.1:9453/status
 ## Compiling Third-Party Dynamic Modules
 
 除了使用 `--add-module` 的方式來進行第三方 Module 的編譯之外，也可以使用動態的方式 `--add-dynamic-module`。
+
 使用動態的方式需要另外將 `.so` 的 Module 檔案搬到指定目錄 `/etc/nginx/modules/`，並且在 Nginx 設定檔將該 Module load 進去，使用動態的方式可以隨時將該 Module 卸載掉
 
 Dockerfile
