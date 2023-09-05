@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: custom-nginx-virtual-host-config
+  name: nginx-vts-virtual-host-config
   namespace: default
 data:
   default.conf: |
