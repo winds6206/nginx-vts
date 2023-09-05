@@ -40,16 +40,16 @@ spec:
             port: 80
           timeoutSeconds: 2
         volumeMounts:
-          - name: nginx-virtual-host-config
+          - name: nginx-vts-virtual-host-config
             mountPath: /etc/nginx/conf.d
-          - name: nginx-global-config
+          - name: nginx-vts-global-config
             mountPath: /etc/nginx/nginx.conf
             subPath: nginx.conf
       volumes:
-      - name: nginx-virtual-host-config
+      - name: nginx-vts-virtual-host-config
         configMap:
           name: nginx-vts-virtual-host-config
-      - name: nginx-global-config
+      - name: nginx-vts-global-config
         configMap:
           name: nginx-vts-global-config
           items:
