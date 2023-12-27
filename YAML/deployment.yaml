@@ -25,7 +25,7 @@ spec:
       restartPolicy: Always
       containers:
       - name: nginx-vts
-        image: winds6206/nginx-vts:1.19.6
+        image: winds6206/nginx-vts:1.22.0
         imagePullPolicy: Always
         ports:
           - containerPort: 80

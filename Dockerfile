@@ -1,13 +1,13 @@
-ARG NGINX_VERSION="1.19.6"
+ARG NGINX_VERSION="1.22.0"
 
 FROM nginx:${NGINX_VERSION}
 
-ARG VTS_VERSION="v0.1.18"
+ARG VTS_VERSION="v0.2.2"
 
 RUN apt-get update && \
  apt-get install -y git wget gcc make libpcre3-dev zlib1g-dev libssl-dev
 
-RUN git clone --branch ${VTS_VERSION} git://github.com/vozlt/nginx-module-vts.git /tmp/nginx-module-vts && \
+RUN git clone --branch ${VTS_VERSION} https://github.com/vozlt/nginx-module-vts.git /tmp/nginx-module-vts && \
   wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz && \
   tar -zxvf nginx-${NGINX_VERSION}.tar.gz
 
