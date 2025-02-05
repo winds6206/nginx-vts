@@ -1,8 +1,8 @@
-ARG NGINX_VERSION="1.22.0"
+ARG NGINX_VERSION="1.27.3"
 
 FROM nginx:${NGINX_VERSION}
 
-ARG VTS_VERSION="v0.2.2"
+ARG VTS_VERSION="v0.2.3"
 
 RUN apt-get update && \
  apt-get install -y git wget gcc make libpcre3-dev zlib1g-dev libssl-dev
