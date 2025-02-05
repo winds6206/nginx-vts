@@ -1,11 +1,14 @@
-ARG NGINX_VERSION="1.22.0"
+ARG NGINX_VERSION="1.27.3"
 
 FROM nginx:${NGINX_VERSION}
 
-ARG VTS_VERSION="v0.2.2"
+ARG VTS_VERSION="v0.2.3"
+ARG ECHO_VERSION="v0.63"
 
 RUN apt-get update && \
  apt-get install -y git wget gcc make libpcre3-dev zlib1g-dev libssl-dev
+
+RUN git clone --branch ${ECHO_VERSION} https://github.com/openresty/echo-nginx-module.git /tmp/nginx-module-echo
 
 RUN git clone --branch ${VTS_VERSION} https://github.com/vozlt/nginx-module-vts.git /tmp/nginx-module-vts && \
   wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz && \
@@ -54,7 +57,8 @@ RUN cd /nginx-${NGINX_VERSION} && \
   --with-stream_ssl_preread_module \
   --with-cc-opt='-g -O2 -fdebug-prefix-map=/data/builder/debuild/nginx-${NGINX_VERSION}/debian/debuild-base/nginx-${NGINX_VERSION}=. -fstack-protector-strong -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fPIC' \
   --with-ld-opt='-Wl,-z,relro -Wl,-z,now -Wl,--as-needed -pie' \
-  --add-module=/tmp/nginx-module-vts && \
+  --add-module=/tmp/nginx-module-vts \
+  --add-module=/tmp/nginx-module-echo && \
   make && make install
 
 COPY ./default.conf /etc/nginx/conf.d/default.conf
